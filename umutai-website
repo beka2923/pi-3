@@ -1,0 +1,105 @@
+// ===== Пароль =====
+function checkPassword() {
+  const input = document.getElementById('passwordInput').value;
+  const error = document.getElementById('errorMsg');
+  if (input === '2010') {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  } else {
+    error.textContent = '❌ Пароль туура эмес! Кайра аракет кыл.';
+    document.getElementById('passwordInput').value = '';
+  }
+}
+document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') checkPassword();
+});
+
+// ===== Беттерди которуу =====
+function showPage(num) {
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('page' + i).classList.remove('active');
+    document.querySelectorAll('.nav button')[i-1].classList.remove('active');
+    document.getElementById('dot' + i).classList.remove('active');
+  }
+  document.getElementById('page' + num).classList.add('active');
+  document.querySelectorAll('.nav button')[num-1].classList.add('active');
+  document.getElementById('dot' + num).classList.add('active');
+}
+
+// ===== "Жок" басканда "Ооба" чоңоюп кетет =====
+let yesScale = 1;
+let noCount = 0;
+const noTexts = ['Жок', 'Жок...', 'Чын элеби?', 'Ойлонуп көр', 'Жок дебе', 'Кайра ойлон', 'Туура эмес', 'Жок!?'];
+
+function sayNo() {
+  noCount++;
+  yesScale += 0.35;
+
+  const btnYes = document.getElementById('btnYes');
+  const btnNo = document.getElementById('btnNo');
+
+  btnYes.style.transform = `scale(${yesScale})`;
+
+  if (noCount < noTexts.length) {
+    btnNo.textContent = noTexts[noCount];
+  }
+  btnNo.style.transform = `scale(${Math.max(0.4, 1 - noCount * 0.12)})`;
+  btnNo.style.opacity = Math.max(0.3, 1 - noCount * 0.12);
+}
+
+// ===== "Ооба" басканда =====
+function sayYes() {
+  launchBalloons();
+  launchPetals();
+
+  setTimeout(() => {
+    document.getElementById('congratsScreen').classList.add('show');
+  }, 1200);
+}
+
+// ===== Шарлар =====
+function launchBalloons() {
+  const balloonEmojis = ['🎈', '🎈', '🎈', '🎉', '🎊'];
+  for (let i = 0; i < 30; i++) {
+    setTimeout(() => {
+      const balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+      balloon.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      balloon.style.fontSize = (Math.random() * 30 + 40) + 'px';
+      document.body.appendChild(balloon);
+      setTimeout(() => balloon.remove(), 6000);
+    }, i * 60);
+  }
+}
+
+// ===== Роза жалбырактары =====
+function launchPetals() {
+  const petalEmojis = ['🌹', '🌸', '🌺', '💐', '🌷', '🥀'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      petal.style.fontSize = (Math.random() * 25 + 20) + 'px';
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 8000);
+    }, i * 80);
+  }
+}
+
+// ===== Учуучу жүрөкчөлөр =====
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerHTML = ['❤️','💕','💖','💗','💓'][Math.floor(Math.random()*5)];
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+  heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 7000);
+}
+setInterval(createHeart, 400);
